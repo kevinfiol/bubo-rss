@@ -31,4 +31,8 @@
   "reddit": [
     "https://www.reddit.com/r/Games.rss"
   ]
+  "game": [
+    "https://www.reddit.com/r/Games.rss"，
+    "https://www.reddit.com/r/Games.rss"
+  ]
 }
