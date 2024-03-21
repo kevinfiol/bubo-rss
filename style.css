@@ -1,0 +1,276 @@
+:root {
+  --font-size: 14px;
+
+  --color: #111;
+  --bg-color: #fffff8;
+  --faded-bg: #f9f9f2;
+
+  --title-font-size: 16px;
+  --title-font-weight: 600;
+
+  --main-padding-right: 8rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color: #ddd;
+    --bg-color: #151515;
+    --faded-bg: #1b1b1b;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  :root {
+    --main-padding-right: 0;
+  }
+
+  article.item {
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+  }
+
+  .menu-label,
+  .menu-btn {
+    display: block !important;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 99;
+  }
+
+  .menu-btn {
+    display: none !important;
+  }
+
+  .menu-label {
+    padding: 1rem 2rem;
+    background-color: var(--faded-bg);
+  }
+
+  .menu-label::after {
+    content: 'groups';
+  }
+
+  .menu-btn:checked ~ .sidebar {
+    display: block !important;
+  }
+
+  .menu-btn:checked ~ main {
+    display: none !important;
+  }
+
+  .menu-btn:checked ~ .menu-label::after {
+    content: 'back';
+  }
+
+  .sidebar {
+    display: none !important;
+    padding: 1rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: var(--bg-color);
+  }
+
+  .sidebar
+    > header
+    > .group-selector {
+      list-style: none;
+      padding: 0;
+    }
+
+  .sidebar
+    > header
+    > .group-selector
+    > li {
+      font-size: 1.2em;
+    }
+}
+
+@keyframes details-show {
+  from {
+    opacity:0;
+    transform: var(--details-translate, translateY(-0.5em));
+  }
+}
+
+body {
+  color: var(--color);
+  background-color: var(--bg-color);
+  margin: 0;
+  padding: 0;
+  font-family: serif;
+  font-size: var(--font-size);
+  overflow: hidden;
+}
+
+details[open] > *:not(summary),
+section {
+  animation: details-show 100ms ease-in-out;
+}
+
+h1, h2, h3 {
+  font-family: monospace;
+}
+
+a:link {
+  color: inherit;
+}
+
+a:visited {
+  color: #b58c8c;
+}
+
+a:hover {
+  opacity: .75;
+}
+
+summary {
+  position: sticky;
+  top: 0;
+  padding-top: 0.65rem;
+  padding-bottom: 0.65rem;
+  user-select: none;
+  cursor:pointer;
+  font-family: monospace;
+  background-color: var(--bg-color);
+}
+
+summary:hover span,
+summary:hover div {
+  opacity:.75;
+}
+
+.menu-btn,
+.menu-label {
+  display: none;
+}
+
+.group-selector a,
+.group-selector a:visited {
+  color: inherit;
+  font-family: monospace;
+  line-height: 1.5em;
+}
+
+.feed-title {
+  font-weight: var(--title-font-weight);
+  font-size: var(--title-font-size);
+}
+
+.feed-url, .feed-timestamp {
+  color:#aaa;
+}
+
+.feed-url {
+  font-size: ;
+}
+
+.feed-timestamp {
+  margin-left: 1.45rem;
+}
+
+.monospace {
+  font-family: monospace;
+}
+
+.inline {
+  display: inline;
+}
+
+.app {
+  display: flex;
+  gap: 2rem;
+  padding: 0 0rem 1rem 1rem;
+}
+
+.sidebar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+header {
+  padding-top: 1rem;
+}
+
+main {
+  flex: 5;
+  height: 100vh;
+  overflow-y: auto;
+  padding-right: var(--main-padding-right);
+}
+
+article.item {
+  max-width: 85%;
+  padding: 0.15rem 0.75rem;
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  background-color: var(--faded-bg);
+}
+
+#all-articles > article.item {
+  margin-left: 0;
+}
+
+article.item header.item__header {
+  font-size: var(--title-font-size);
+}
+
+.item__feed-url {
+  opacity: 0.25;
+}
+
+ul.article-links {
+  list-style: none;
+  padding-left: 0;
+}
+
+ul.article-links > li {
+  display:  inline-block;
+  margin-right: .5rem;
+}
+
+footer {
+  opacity: 0.25;
+  font-size: 0.75em;
+}
+
+footer:hover {
+  opacity: 1;
+}
+
+section {
+  z-index: 1;
+  /* ! Everything below is needed ! */
+  display: none;
+  height: 100%;
+  width: 100%;
+  background-color: var(--bg-color);
+}
+
+section > h2 {
+  margin-top: 0;
+  padding-top: 19px;
+}
+
+section:target { /* Show section */
+  display: block;
+}
+
+section:target ~ .default-text {
+  display: none;
+}
+
+
+.default-text {
+  text-align: center;
+  position: relative;
+  top: 5%;
+  font-family: monospace;
+  font-size: 2em;
+}
