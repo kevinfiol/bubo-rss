@@ -115,9 +115,22 @@ async function build({ config, feeds, cache, writeCache = false }) {
             if (redirect) item.link = `https://${redirect}${url.pathname}${url.search}`;
           }
 
-          // 5. escape html in titles
-          item.title = escapeHtml(item.title);
-        });
+
+			// 5. escape any html in the title
+			if (typeof item.title === 'string') {
+				try {
+					item.title = escapeHtml(item.title);
+				} catch (error) {
+					console.error('Error escaping HTML in title:', error);
+				}
+			} else {
+				console.log('Title is not a string:', item.title);
+				item.title = '(NO TITLE ON THIS ITEM)'
+					console.log('item.link:', item.link);
+				console.log('item.contentSnippet:', item.contentSnippet);
+				console.log(Object.keys(item));
+			}
+		});
 
         // add to allItems
         allItems = [...allItems, ...contents.items];
@@ -200,9 +213,27 @@ function readCfg(path) {
 
 
 function escapeHtml(html) {
-  return html.replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('\'', '&apos;')
-    .replaceAll('"', '&quot;');
+  const entities = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    '\'': '&apos;',
+    '’': '&apos;',
+    '‘': '&apos;',
+    '“': '&quot;',
+    '”': '&quot;',
+    '<cite>': '&quot;',
+    '</cite>': '&quot;',
+    '&#8217;': '&apos;',
+    '&#8216;': '&apos;',
+    '&rsquo;': '&apos;',
+    '&lsquo;': '&apos;',
+  };
+
+  return html.replace(/&(#8217|#8216);|&rsquo;|&lsquo;|&(?!([a-zA-Z0-9#]+;))|"|'|’|‘|“|”|<cite>|<\/cite>|<(?!cite)|(?!<cite)>/g, function(match) {
+      const replacement = entities[match] || match;
+      // console.log(`Matched: ${match}, Replaced with: ${replacement}`);
+      return replacement;
+  });
 }
